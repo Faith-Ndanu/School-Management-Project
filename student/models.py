@@ -8,7 +8,12 @@ class Student(models.Model):
     email = models.EmailField()
     country= models.CharField(max_length=20)
     date_of_birth= models.DateField()
-    code = models.PositiveSmallIntegerField()
+    student_code = models.PositiveSmallIntegerField()
+    student_bio=models.TextField(max_length=20)
+    student_picture=models.ImageField()
+    enrollment_year=models.IntegerField()
+
+    
 
 
     def __str__(self):
