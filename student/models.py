@@ -9,11 +9,9 @@ class Student(models.Model):
     country= models.CharField(max_length=20)
     date_of_birth= models.DateField()
     student_code = models.PositiveSmallIntegerField()
-    student_bio=models.TextField(max_length=20)
-    student_picture=models.ImageField()
-    enrollment_year=models.IntegerField()
-
-    
+    student_bio = models.TextField(null=True)
+    enrollment_year = models.IntegerField(null=True)
+   
 
 
     def __str__(self):
