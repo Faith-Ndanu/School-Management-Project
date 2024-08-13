@@ -11,6 +11,7 @@ class Student(models.Model):
     student_code = models.PositiveSmallIntegerField()
     student_bio = models.TextField(null=True)
     enrollment_year = models.IntegerField(null=True)
+    # courses=models.ManyToManyField(courses)
    
 
 

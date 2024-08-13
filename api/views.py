@@ -18,6 +18,13 @@ from rest_framework.response import Response
 class StudentListView(APIView):
     def get(self , request):
         student=Student.objects.all()
+        country=request.query_params.get("country")
+        first_name=request.query_params.get("first_name")
+        if country:
+            student=student.filter(country=country)
+        if first_name:
+            student=student.filter(first_name=first_name)
+
         serializer = StudentSerializer(student,many=True)
         return Response(serializer.data)
     
@@ -28,8 +35,29 @@ class StudentListView(APIView):
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        
+
 
 class StudentDetailView(APIView):
+    def enroll_student(self,student,course_id):
+        course=Course.objects.get(id=course_id)
+        student.courses.add(course)
+
+
+
+    def post(self,request,id):
+        student=Student.objects.get(id=id)
+        action=request.data.get("action")
+        if action=="enroll":
+            course_id=request.data.get("course_id")
+            self.enroll_student(student,course_id)
+            return Response(status=status.HTTP_202_ACCEPTED)    
+
+
+
+
+
+
     def get(self,request,id):
         student=Student.objects.get(id=id)
         serializer=StudentSerializer(student)
@@ -48,6 +76,8 @@ class StudentDetailView(APIView):
         student=Student.objects.get(id=id)
         student.delete()    
         return Response(status=status.HTTP_202_ACCEPTED)
+
+
 
 #ClassPeriod
 class ClassPeriodListView(APIView):
